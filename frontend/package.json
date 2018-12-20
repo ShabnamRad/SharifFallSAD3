@@ -25,6 +25,7 @@
     "prop-types": "latest",
     "react": "^16.6.3",
     "react-addons-shallow-compare": "^15.6.2",
+    "react-bootstrap": "^0.32.4",
     "react-dates": "^18.2.2",
     "react-dom": "^16.6.3",
     "react-modal": "^3.6.1",
