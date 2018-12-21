@@ -1,5 +1,10 @@
 import React, {Component} from "react";
 import Col from "react-bootstrap/lib/Col";
+import $ from 'jquery';
+
+$('input.className').change(function() {
+
+});
 
 export default class Login extends Component {
     constructor(props) {
@@ -14,6 +19,17 @@ export default class Login extends Component {
     validateForm() {
         return this.state.email.length > 0 && this.state.password.length > 0;
     }
+
+    handleKeyUp = event => {
+        if (event.target.value.length){
+            event.currentTarget.setAttribute('class', 'form-group');
+        }
+        else {
+            event.currentTarget.setAttribute('class', 'form-group has-error');
+        }
+        if (event.target.id === 'inputEmail' && !this.state.email.match("^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            console.log(this.state.email);
+    };
 
     handleEmailChange = event => {
         this.setState({
@@ -40,7 +56,7 @@ export default class Login extends Component {
                     <form className="form-horizontal" onSubmit={this.handleSubmit}>
                         <fieldset>
                             <legend>Login</legend>
-                            <div className="form-group">
+                            <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="inputEmail">Email</label>
                                 <Col xs={8} sm={8} md={8} lg={8}>
                                     <input
@@ -53,17 +69,17 @@ export default class Login extends Component {
                                         onChange={this.handleEmailChange}
                                     /></Col>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="passwordInput">Password</label>
                                 <Col xs={8} sm={8} md={8} lg={8}>
                                     <input
-                                        autoFocus
                                         type="password"
                                         id="passwordInput"
                                         className="form-control"
                                         placeholder="Password"
                                         value={this.state.password}
                                         onChange={this.handlePasswordChange}
+                                        onKeyUp={this.handleKeyUp}
                                     /></Col>
                             </div>
                             <Col xs={1} sm={1} md={1} lg={1} xsOffset={2} smOffset={2} mdOffset={2} lgOffset={2}>

@@ -13,6 +13,7 @@ export default class Register extends Component {
             confirmPassword: "",
             image: "",
             type: "Customer",
+            contactInfo: "",
             redirect: false
         };
     }
@@ -22,9 +23,23 @@ export default class Register extends Component {
             this.state.fullName.length > 0 &&
             this.state.email.length > 0 &&
             this.state.password.length > 0 &&
-            this.state.password === this.state.confirmPassword
+            this.state.password === this.state.confirmPassword &&
+            (this.state.type === "Customer" || this.state.contactInfo.length > 0)
         );
     }
+
+    handleKeyUp = event => {
+        if (event.target.value.length){
+            event.currentTarget.setAttribute('class', 'form-group');
+        }
+        else {
+            event.currentTarget.setAttribute('class', 'form-group has-error');
+        }
+        if (event.target.id === 'repeatInput' && this.state.password !== this.state.confirmPassword)
+            event.currentTarget.setAttribute('class', 'form-group has-error');
+        if (event.target.id === 'inputEmail' && !this.state.email.match("^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            console.log(this.state.email);
+    };
 
     handleNameChange = event => {
       this.setState({
@@ -62,6 +77,12 @@ export default class Register extends Component {
         });
     };
 
+    handleContactInfoChange = event => {
+        this.setState({
+            contactInfo: event.target.value
+        });
+    };
+
     handleSubmit = event => {
         event.preventDefault();
         console.log(this.state.type);
@@ -80,7 +101,7 @@ export default class Register extends Component {
                     <form className="form-horizontal" onSubmit={this.handleSubmit}>
                         <fieldset>
                             <legend>Register</legend>
-                            <div className="form-group">
+                            <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="fullName">Full Name</label>
                                 <Col xs={8} sm={8} md={8} lg={8}>
                                     <input
@@ -93,11 +114,10 @@ export default class Register extends Component {
                                         onChange={this.handleNameChange}
                                     /></Col>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="inputEmail">Email</label>
                                 <Col xs={8} sm={8} md={8} lg={8}>
                                     <input
-                                        autoFocus
                                         type="email"
                                         id="inputEmail"
                                         className="form-control"
@@ -106,11 +126,10 @@ export default class Register extends Component {
                                         onChange={this.handleEmailChange}
                                     /></Col>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="passwordInput">Password</label>
                                 <Col xs={8} sm={8} md={8} lg={8}>
                                     <input
-                                        autoFocus
                                         type="password"
                                         id="passwordInput"
                                         className="form-control"
@@ -119,11 +138,10 @@ export default class Register extends Component {
                                         onChange={this.handlePasswordChange}
                                     /></Col>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="repeatInput">Repeat Password</label>
                                 <Col xs={8} sm={8} md={8} lg={8}>
                                     <input
-                                        autoFocus
                                         type="password"
                                         id="repeatInput"
                                         className="form-control"
@@ -136,7 +154,6 @@ export default class Register extends Component {
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="imageInput">Profile Image</label>
                                 <Col xs={8} sm={8} md={8} lg={8}>
                                     <input
-                                        autoFocus
                                         type="file"
                                         id="imageInput"
                                         className="form-control"
@@ -164,6 +181,20 @@ export default class Register extends Component {
                                     /> Company/Store Owner
                                 </Col>
                             </div>
+                            {
+                                this.state.type === 'Owner' &&
+                                <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
+                                    <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="contactInfo">Contact Info</label>
+                                    <Col xs={8} sm={8} md={8} lg={8}>
+                                        <input
+                                            type="text"
+                                            id="contactInfo"
+                                            className="form-control"
+                                            value={this.state.contactInfo}
+                                            onChange={this.handleContactInfoChange}
+                                        /></Col>
+                                </div>
+                            }
                             <Col xs={1} sm={1} md={1} lg={1} xsOffset={2} smOffset={2} mdOffset={2} lgOffset={2}>
                                 <button
                                     className='btn btn-primary'
