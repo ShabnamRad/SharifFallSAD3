@@ -17,7 +17,8 @@ export default class Login extends Component {
     }
 
     validateForm() {
-        return this.state.email.length > 0 && this.state.password.length > 0;
+        const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
+        return this.state.email.length > 0 && this.state.password.length > 0 && emailReg.test(this.state.email);
     }
 
     handleKeyUp = event => {
@@ -27,8 +28,9 @@ export default class Login extends Component {
         else {
             event.currentTarget.setAttribute('class', 'form-group has-error');
         }
-        if (event.target.id === 'inputEmail' && !this.state.email.match("^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-            console.log(this.state.email);
+        const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
+        if (event.target.id === 'inputEmail' && !emailReg.test(event.target.value))
+            event.currentTarget.setAttribute('class', 'form-group has-error');
     };
 
     handleEmailChange = event => {
