@@ -48,6 +48,13 @@ export default class Login extends Component {
     };
 
     handleSubmit = event => {
+        fetch('http://localhost:8000/api/v1/accounts')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(myJson) {
+                console.log(JSON.stringify(myJson));
+            });
         event.preventDefault();
     };
 
@@ -81,7 +88,6 @@ export default class Login extends Component {
                                         placeholder="Password"
                                         value={this.state.password}
                                         onChange={this.handlePasswordChange}
-                                        onKeyUp={this.handleKeyUp}
                                     /></Col>
                             </div>
                             <Col xs={1} sm={1} md={1} lg={1} xsOffset={2} smOffset={2} mdOffset={2} lgOffset={2}>
