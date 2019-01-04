@@ -3,7 +3,7 @@ import {NavLink, Link} from 'react-router-dom';
 import Grid from 'react-bootstrap/lib/Grid';
 
 const Header = () => (
-    <div className='navbar navbar-default col-lg-12 col-md-12 col-sm-12 col-xs-12'>
+    <div className='navbar navbar-default col-lg-12 col-md-12 col-sm-12 col-xs-12' style={{marginBottom: 0}}>
         <Grid>
             <Link to={"/"} className='navbar-header'>
                 <a href="../" className='navbar-brand'>SHAP</a>

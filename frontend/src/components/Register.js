@@ -149,7 +149,7 @@ export default class Register extends Component {
             return <Redirect push to="/"/>;
         }
         return (
-            <Col xs={10} xsOfffset={1} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1}>
+            <Col xs={10} xsOfffset={1} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1}  style={{marginTop: "50px"}}>
                 <div className="well bs-component">
                     <form className="form-horizontal" onSubmit={this.handleSubmit}>
                         <fieldset>
