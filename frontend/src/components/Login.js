@@ -21,8 +21,7 @@ export default class Login extends Component {
     }
 
     validateForm() {
-        //const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
-        return this.state.username.length > 0 && this.state.password.length > 0; //&& emailReg.test(this.state.username);
+        return this.state.username.length > 0 && this.state.password.length > 0;
     }
 
     handleKeyUp = event => {
@@ -32,9 +31,6 @@ export default class Login extends Component {
         else {
             event.currentTarget.setAttribute('class', 'form-group has-error');
         }
-        //const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
-        if (event.target.id === 'inputUsername' && event.target.value.length > 0)
-            event.currentTarget.setAttribute('class', 'form-group has-error');
     };
 
     handleUsernameChange = event => {
@@ -85,14 +81,14 @@ export default class Login extends Component {
             return <Redirect push to="/"/>;
         }
         return (
-            <Col xs={10} xsOfffset={1} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
+            <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
                 <div className="well bs-component">
                     <form className="form-horizontal" onSubmit={this.handleSubmit}>
                         <fieldset>
                             <legend>Login</legend>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="inputUsername">Username</label>
-                                <Col xs={8} sm={8} md={8} lg={8}>
+                                <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         autoFocus
                                         type="username"
@@ -105,7 +101,7 @@ export default class Login extends Component {
                             </div>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="passwordInput">Password</label>
-                                <Col xs={8} sm={8} md={8} lg={8}>
+                                <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         type="password"
                                         id="passwordInput"

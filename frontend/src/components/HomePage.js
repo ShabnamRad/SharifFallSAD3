@@ -48,22 +48,32 @@ export default class HomePage extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect push to="/"/>;
+            return <Redirect to={{
+                pathname: "/results",
+                state: {
+                    itemsList: [
+                        {name: "Split Peas", brand: "Holia",  itemPage: "/", barcode: "214142", price: "$10", imgsrc: "http://localhost:8080/images/lappe1.png"},
+                        {name: "Split Peas", brand: "Golzar", itemPage: "/", barcode: "34534", price: "$12", imgsrc: "http://localhost:8080/images/lappe2.png"},
+                        {name: "Split Peas", brand: "Mosamma", itemPage: "/", barcode: "346lkn23", price: "$8", imgsrc: "http://localhost:8080/images/lappe3.png"},
+                        {name: "Split Peas", brand: "Hamgol", itemPage: "/", barcode: "345iejt", price: "$11", imgsrc: "http://localhost:8080/images/lappe4.png"}
+                    ]
+                }
+            }}/>;
         }
         if (this.state.redirectToAddItem) {
             return <Redirect push to="/addItem"/>
         }
         return (
             <div style={{display: "flex", flexDirection: "column", justifyContent: "center", padding: "25vh 0"}}>
-                <Col xs={10} xsOfffset={1} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1}>
+                <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1}>
                     <div className="well bs-component">
                         <form className="form-horizontal" onSubmit={this.handleSubmit}>
                             <fieldset>
                                 <legend>Search Item Or Barcode</legend>
                                 <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
-                                    <label className="col-xs-1 col-sm-1 col-lg-1 col-xl-1"><img src="http://localhost:8080/search-icon.png" alt="search icon"
-                                                style={{width: "40px", height: "40px", marginLeft: "20px"}}/></label>
-                                    <Col xs={9} sm={9} md={9} lg={9}>
+                                    <label className="col-xs-1 col-sm-1 col-lg-1 col-xl-1" style={{alignItems: "center"}}><img src="http://localhost:8080/images/search-icon.png" alt="search icon"
+                                                style={{width: "40px", height: "40px", marginLeft: "10px"}}/></label>
+                                    <Col xs={10} sm={9} md={9} lg={9}>
                                         <input
                                             autoFocus
                                             type="text"
@@ -75,7 +85,8 @@ export default class HomePage extends Component {
                                         />
                                     </Col>
                                     <button
-                                        className='btn btn-primary col-xs-1 col-sm-1 col-md-1 col-lg-1'
+                                        className='btn btn-primary'
+                                        style={{display: "inline-block", textAlign: "center"}}
                                         disabled={!this.validateForm()}
                                         type="submit"
                                     >Search
@@ -85,7 +96,7 @@ export default class HomePage extends Component {
                         </form>
                     </div>
                     <button
-                        className='btn btn-default col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-xs-4 col-sm-4 col-md-4 col-lg-4'
+                        className='btn btn-default col-xs-offset-3 col-sm-offset-4 col-md-offset-4 col-lg-offset-4 col-xs-5 col-sm-4 col-md-4 col-lg-4'
                         onClick={this.handleAddItem}
                     >Need to Add an Item?
                     </button>

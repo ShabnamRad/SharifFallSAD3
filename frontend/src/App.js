@@ -6,6 +6,7 @@ import configureStore from './store/configureStore'
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
+import './styles/style.scss';
 
 const store = configureStore();
 

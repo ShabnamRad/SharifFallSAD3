@@ -149,7 +149,7 @@ export default class Register extends Component {
             return <Redirect push to="/"/>;
         }
         return (
-            <Col xs={10} xsOfffset={1} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1}  style={{marginTop: "50px"}}>
+            <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1}  style={{marginTop: "50px"}}>
                 <div className="well bs-component">
                     <form className="form-horizontal" onSubmit={this.handleSubmit}>
                         <fieldset>
@@ -157,7 +157,7 @@ export default class Register extends Component {
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="fullName">Full
                                     Name</label>
-                                <Col xs={8} sm={8} md={8} lg={8}>
+                                <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         autoFocus
                                         type="text"
@@ -171,7 +171,7 @@ export default class Register extends Component {
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                        htmlFor="inputEmail">Email</label>
-                                <Col xs={8} sm={8} md={8} lg={8}>
+                                <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         type="email"
                                         id="inputEmail"
@@ -184,7 +184,7 @@ export default class Register extends Component {
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                        htmlFor="passwordInput">Password</label>
-                                <Col xs={8} sm={8} md={8} lg={8}>
+                                <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         type="password"
                                         id="passwordInput"
@@ -197,7 +197,7 @@ export default class Register extends Component {
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                        htmlFor="repeatInput">Repeat Password</label>
-                                <Col xs={8} sm={8} md={8} lg={8}>
+                                <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         type="password"
                                         id="repeatInput"
@@ -210,7 +210,7 @@ export default class Register extends Component {
                             <div className="form-group">
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                        htmlFor="imageInput">Profile Image</label>
-                                <Col xs={8} sm={8} md={8} lg={8}>
+                                <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         type="file"
                                         id="imageInput"
@@ -244,7 +244,7 @@ export default class Register extends Component {
                                     <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                         <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                                htmlFor="contactInfo">Contact Info</label>
-                                        <Col xs={8} sm={8} md={8} lg={8}>
+                                        <Col xs={10} sm={9} md={8} lg={8}>
                                             <input
                                                 type="text"
                                                 id="contactInfo"
@@ -257,7 +257,7 @@ export default class Register extends Component {
                                     <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                         <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                                htmlFor="propertyName">Property Name</label>
-                                        <Col xs={8} sm={8} md={8} lg={8}>
+                                        <Col xs={10} sm={9} md={8} lg={8}>
                                             <input
                                                 type="text"
                                                 id="propertyName"
@@ -270,7 +270,7 @@ export default class Register extends Component {
                                     <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                         <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                                htmlFor="propertyDesc">Property Description</label>
-                                        <Col xs={8} sm={8} md={8} lg={8}>
+                                        <Col xs={10} sm={9} md={8} lg={8}>
                                             <input
                                                 type="text"
                                                 id="propertyDesc"
@@ -283,7 +283,7 @@ export default class Register extends Component {
                                     <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                         <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                                htmlFor="regIDInput">Registration ID</label>
-                                        <Col xs={8} sm={8} md={8} lg={8}>
+                                        <Col xs={10} sm={9} md={8} lg={8}>
                                             <input
                                                 type="text"
                                                 id="regIDInput"
@@ -318,7 +318,7 @@ export default class Register extends Component {
                                                  onKeyUp={this.handleKeyUp}>
                                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                                        htmlFor="storeLocation">Store Location</label>
-                                                <Col xs={8} sm={8} md={8} lg={8}>
+                                                <Col xs={10} sm={9} md={8} lg={8}>
                                                     <input
                                                         type="text"
                                                         id="storeLocation"
@@ -332,7 +332,7 @@ export default class Register extends Component {
                                                  onKeyUp={this.handleKeyUp}>
                                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                                        htmlFor="storeWH">Working Hours</label>
-                                                <Col xs={8} sm={8} md={8} lg={8}>
+                                                <Col xs={10} sm={9} md={8} lg={8}>
                                                     <input
                                                         type="text"
                                                         id="storeWH"
