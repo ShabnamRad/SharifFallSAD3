@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Col from "react-bootstrap/lib/Col";
 import $ from 'jquery';
+import {Redirect} from "react-router-dom";
 
 $('input.className').change(function() {
 
@@ -11,14 +12,17 @@ export default class Login extends Component {
         super(props);
 
         this.state = {
-            email: "",
-            password: ""
+            username: "",
+            password: "",
+            redirect:false,
+            auth_key: "",
+            login_response: ""
         };
     }
 
     validateForm() {
-        const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
-        return this.state.email.length > 0 && this.state.password.length > 0 && emailReg.test(this.state.email);
+        //const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
+        return this.state.username.length > 0 && this.state.password.length > 0; //&& emailReg.test(this.state.username);
     }
 
     handleKeyUp = event => {
@@ -28,14 +32,14 @@ export default class Login extends Component {
         else {
             event.currentTarget.setAttribute('class', 'form-group has-error');
         }
-        const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
-        if (event.target.id === 'inputEmail' && !emailReg.test(event.target.value))
+        //const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
+        if (event.target.id === 'inputUsername' && event.target.value.length > 0)
             event.currentTarget.setAttribute('class', 'form-group has-error');
     };
 
-    handleEmailChange = event => {
+    handleUsernameChange = event => {
         this.setState({
-            email: event.target.value
+            username: event.target.value
         });
     };
 
@@ -48,17 +52,38 @@ export default class Login extends Component {
     };
 
     handleSubmit = event => {
-        fetch('http://localhost:8000/api/v1/accounts')
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(myJson) {
-                console.log(JSON.stringify(myJson));
+        const that = this;
+        console.log(this.state);
+        fetch('http://127.0.0.1:8000/api/v1/rest-auth/login/', {
+            method: "POST",
+            body: JSON.stringify(this.state),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+        }).then(function(response) {
+            console.log((response));
+            console.log(response.status);     //=> number 100–599
+            console.log(response.statusText); //=> String
+            console.log(response.headers);    //=> Headers
+            console.log(response.url);        //=> String
+            that.setState({
+                login_response: response
             });
+            return response.text();
+        }, function(error) {
+            console.log(error.message); //=> String
+        });
+        this.setState({
+            redirect: true
+        });
         event.preventDefault();
     };
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect push to="/"/>;
+        }
         return (
             <Col xs={10} xsOfffset={1} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
                 <div className="well bs-component">
@@ -66,16 +91,16 @@ export default class Login extends Component {
                         <fieldset>
                             <legend>Login</legend>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
-                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="inputEmail">Email</label>
+                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="inputUsername">Username</label>
                                 <Col xs={8} sm={8} md={8} lg={8}>
                                     <input
                                         autoFocus
-                                        type="email"
-                                        id="inputEmail"
+                                        type="username"
+                                        id="inputUsername"
                                         className="form-control"
-                                        placeholder="Email"
-                                        value={this.state.email}
-                                        onChange={this.handleEmailChange}
+                                        placeholder="Username"
+                                        value={this.state.username}
+                                        onChange={this.handleUsernameChange}
                                     /></Col>
                             </div>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
