@@ -52,10 +52,10 @@ export default class HomePage extends Component {
                 pathname: "/results",
                 state: {
                     itemsList: [
-                        {name: "Split Peas", brand: "Holia",  itemPage: "/", barcode: "214142", price: "$10", imgsrc: "http://localhost:8080/images/lappe1.png"},
-                        {name: "Split Peas", brand: "Golzar", itemPage: "/", barcode: "34534", price: "$12", imgsrc: "http://localhost:8080/images/lappe2.png"},
-                        {name: "Split Peas", brand: "Mosamma", itemPage: "/", barcode: "346lkn23", price: "$8", imgsrc: "http://localhost:8080/images/lappe3.png"},
-                        {name: "Split Peas", brand: "Hamgol", itemPage: "/", barcode: "345iejt", price: "$11", imgsrc: "http://localhost:8080/images/lappe4.png"}
+                        {name: "Split Peas", brand: "Holia",  itemPage: "/", code: "214142", price: "$10", imgsrc: "http://localhost:8080/images/lappe1.png"},
+                        {name: "Split Peas", brand: "Golzar", itemPage: "/", code: "34534", price: "$12", imgsrc: "http://localhost:8080/images/lappe2.png"},
+                        {name: "Split Peas", brand: "Mosamma", itemPage: "/", code: "346lkn23", price: "$8", imgsrc: "http://localhost:8080/images/lappe3.png"},
+                        {name: "Split Peas", brand: "Hamgol", itemPage: "/", code: "345iejt", price: "$11", imgsrc: "http://localhost:8080/images/lappe4.png"}
                     ]
                 }
             }}/>;

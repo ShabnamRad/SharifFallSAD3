@@ -8,7 +8,7 @@ export default class AddItem extends Component {
 
         this.state = {
             name: "",
-            barcode: "",
+            code: "",
             brand: "",
             store: "",
             price: "",
@@ -19,7 +19,7 @@ export default class AddItem extends Component {
     validateForm() {
         return (
             this.state.name.length > 0 &&
-            this.state.barcode.length > 0 &&
+            this.state.code.length > 0 &&
             this.state.brand.length > 0 &&
             this.state.store.length > 0 &&
             this.state.price > 0
@@ -46,7 +46,7 @@ export default class AddItem extends Component {
 
     handleBarcodeChange = event => {
         this.setState({
-            barcode: event.target.value
+            code: event.target.value
         });
     };
 
@@ -69,6 +69,30 @@ export default class AddItem extends Component {
     };
 
     handleSubmit = event => {
+        const that = this;
+        console.log(this.state);
+        console.log("HELLOOOO");
+        console.log(JSON.stringify(this.state));
+        fetch('http://127.0.0.1:8000/api/v1/items/items/', {
+            method: "POST",
+            body: JSON.stringify(this.state),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        }).then(function(response) {
+            console.log((response));
+            console.log(response.status);     //=> number 100–599
+            console.log(response.statusText); //=> String
+            console.log(response.headers);    //=> Headers
+            console.log(response.url);        //=> String
+            that.setState({
+                login_response: response
+            });
+            return response.text();
+        }, function(error) {
+            console.log(error.message); //=> String
+        });
         event.preventDefault();
         this.setState({
             redirect: true
@@ -102,14 +126,14 @@ export default class AddItem extends Component {
                             </div>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
-                                       htmlFor="itemBarcode">Barcode</label>
+                                       htmlFor="itemBarcode">Code</label>
                                 <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         type="text"
                                         id="itemBarcode"
                                         className="form-control"
-                                        placeholder="item barcode"
-                                        value={this.state.barcode}
+                                        placeholder="item code"
+                                        value={this.state.code}
                                         onChange={this.handleBarcodeChange}
                                     /></Col>
                             </div>
