@@ -1,6 +1,6 @@
 1-Install yarn:
   
-...a) if you have a yarn.lock file copy it to the root of frontend folder
+⋅⋅⋅a) if you have a yarn.lock file copy it to the root of frontend folder
   
 ...b) run "yarn install"
   
