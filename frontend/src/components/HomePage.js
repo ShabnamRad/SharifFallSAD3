@@ -35,6 +35,7 @@ export default class HomePage extends Component {
     handleSubmit = event => {
         const that = this;
         console.log(this.state);
+        console.log('http://127.0.0.1:8000/api/v1/items/' + this.state.searchInput);
         fetch('http://127.0.0.1:8000/api/v1/items/' + this.state.searchInput, {
             method: "GET",
             headers: {
@@ -54,7 +55,7 @@ export default class HomePage extends Component {
         });
         this.setState({
             redirect: true
-        })
+        });
         // set item list here
         event.preventDefault();
     };
