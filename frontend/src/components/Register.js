@@ -7,10 +7,11 @@ export default class Register extends Component {
         super(props);
 
         this.state = {
+            username: "",
             fullName: "",
             email: "",
-            password: "",
-            confirmPassword: "",
+            password1: "",
+            password2: "",
             image: "",
             type: "Customer",
             contactInfo: "",
@@ -30,8 +31,8 @@ export default class Register extends Component {
             this.state.fullName.length > 0 &&
             this.state.email.length > 0 &&
             emailReg.test(this.state.email) &&
-            this.state.password.length > 0 &&
-            this.state.password === this.state.confirmPassword &&
+            this.state.password1.length > 0 &&
+            this.state.password1 === this.state.password2 &&
             (this.state.type === "Customer" || (
                 this.state.contactInfo.length > 0 &&
                 this.state.propertyName.length > 0 &&
@@ -52,7 +53,7 @@ export default class Register extends Component {
         else {
             event.currentTarget.setAttribute('class', 'form-group has-error');
         }
-        if (event.target.id === 'repeatInput' && this.state.password !== this.state.confirmPassword)
+        if (event.target.id === 'repeatInput' && this.state.password1 !== this.state.password2)
             event.currentTarget.setAttribute('class', 'form-group has-error');
         const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
         if (event.target.id === 'inputEmail' && !emailReg.test(event.target.value))
@@ -65,6 +66,12 @@ export default class Register extends Component {
         });
     };
 
+    handleUsernameChange = event => {
+        this.setState({
+            username: event.target.value
+        });
+    };
+
     handleEmailChange = event => {
         this.setState({
             email: event.target.value
@@ -73,13 +80,13 @@ export default class Register extends Component {
 
     handlePasswordChange = event => {
         this.setState({
-            password: event.target.value
+            password1: event.target.value
         });
     };
 
     handleConfirmPasswordChange = event => {
         this.setState({
-            confirmPassword: event.target.value
+            password2: event.target.value
         });
     };
 
@@ -138,6 +145,30 @@ export default class Register extends Component {
     };
 
     handleSubmit = event => {
+        const that = this;
+        console.log(this.state);
+        console.log(JSON.stringify(this.state));
+        fetch('http://127.0.0.1:8000/api/v1/rest-auth/registration/', {
+            method: "POST",
+            body: JSON.stringify(this.state),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        }).then(function(response) {
+            console.log((response));
+            console.log(response.status);     //=> number 100–599
+            console.log(response.statusText); //=> String
+            console.log(response.headers);    //=> Headers
+            console.log(response.url);        //=> String
+            that.setState({
+                login_response: response
+            });
+            return response.text();
+        }, function(error) {
+            console.log(error.message); //=> String
+        });
+        event.preventDefault();
         event.preventDefault();
         this.setState({
             redirect: true
@@ -169,6 +200,19 @@ export default class Register extends Component {
                                     /></Col>
                             </div>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
+                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="username">Username</label>
+                                <Col xs={10} sm={9} md={8} lg={8}>
+                                    <input
+                                        autoFocus
+                                        type="text"
+                                        id="username"
+                                        className="form-control"
+                                        placeholder="username"
+                                        value={this.state.username}
+                                        onChange={this.handleUsernameChange}
+                                    /></Col>
+                            </div>
+                            <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
                                 <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
                                        htmlFor="inputEmail">Email</label>
                                 <Col xs={10} sm={9} md={8} lg={8}>
@@ -190,7 +234,7 @@ export default class Register extends Component {
                                         id="passwordInput"
                                         className="form-control"
                                         placeholder="Password"
-                                        value={this.state.password}
+                                        value={this.state.password1}
                                         onChange={this.handlePasswordChange}
                                     /></Col>
                             </div>
@@ -203,7 +247,7 @@ export default class Register extends Component {
                                         id="repeatInput"
                                         className="form-control"
                                         placeholder="Repeat Password"
-                                        value={this.state.confirmPassword}
+                                        value={this.state.password2}
                                         onChange={this.handleConfirmPasswordChange}
                                     /></Col>
                             </div>
