@@ -33,10 +33,30 @@ export default class HomePage extends Component {
     };
 
     handleSubmit = event => {
-        event.preventDefault();
+        const that = this;
+        console.log(this.state);
+        fetch('http://127.0.0.1:8000/api/v1/items/' + this.state.searchInput, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+        }).then(function(response) {
+            that.state.itemList = response.json();
+            console.log(response);
+            console.log(response.status);     //=> number 100–599
+            console.log(response.statusText); //=> String
+            console.log(response.headers);    //=> Headers
+            console.log(response.url);        //=> String
+            return response.json();
+        }, function(error) {
+            console.log(error.message); //=> String
+        });
         this.setState({
             redirect: true
         })
+        // set item list here
+        event.preventDefault();
     };
 
     handleAddItem = event => {
