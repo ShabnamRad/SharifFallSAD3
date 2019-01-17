@@ -8,6 +8,7 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import AddItem from "../components/AddItem";
 import SearchResults from "../components/SearchResults";
+import ForgetPassword from "../components/ForgetPassword"
 
 const AppRouter = () => (
     <BrowserRouter>
@@ -19,6 +20,7 @@ const AppRouter = () => (
                 <Route path="/register" component={Register}/>
                 <Route path="/addItem" component={AddItem}/>
                 <Route path="/results" component={SearchResults}/>
+                <Route path="/forgetPassword" component={ForgetPassword}/>
             </Switch></Row>
         </Grid>
     </BrowserRouter>
