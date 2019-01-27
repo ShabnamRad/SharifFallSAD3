@@ -38,10 +38,31 @@ export default class HomePage extends Component {
     };
 
     handleSubmit = event => {
-        event.preventDefault();
+        const that = this;
+        console.log(this.state);
+        console.log('http://127.0.0.1:8000/api/v1/items/' + this.state.searchInput);
+        fetch('http://127.0.0.1:8000/api/v1/items/' + this.state.searchInput, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+        }).then(function(response) {
+            that.state.itemList = response.json();
+            console.log(response);
+            console.log(response.status);     //=> number 100–599
+            console.log(response.statusText); //=> String
+            console.log(response.headers);    //=> Headers
+            console.log(response.url);        //=> String
+            return response.json();
+        }, function(error) {
+            console.log(error.message); //=> String
+        });
         this.setState({
             redirect: true
-        })
+        });
+        // set item list here
+        event.preventDefault();
     };
 
     handleAddItem = event => {
@@ -58,10 +79,10 @@ export default class HomePage extends Component {
                 pathname: "/results",
                 state: {
                     itemsList: [
-                        {name: "Split Peas", brand: "Holia",  itemPage: "/", barcode: "214142", price: "$10", imgsrc: "http://localhost:8080/images/lappe1.png"},
-                        {name: "Split Peas", brand: "Golzar", itemPage: "/", barcode: "34534", price: "$12", imgsrc: "http://localhost:8080/images/lappe2.png"},
-                        {name: "Split Peas", brand: "Mosamma", itemPage: "/", barcode: "346lkn23", price: "$8", imgsrc: "http://localhost:8080/images/lappe3.png"},
-                        {name: "Split Peas", brand: "Hamgol", itemPage: "/", barcode: "345iejt", price: "$11", imgsrc: "http://localhost:8080/images/lappe4.png"}
+                        {name: "Split Peas", brand: "Holia",  itemPage: "/", code: "214142", price: "$10", imgsrc: "http://localhost:8080/images/lappe1.png"},
+                        {name: "Split Peas", brand: "Golzar", itemPage: "/", code: "34534", price: "$12", imgsrc: "http://localhost:8080/images/lappe2.png"},
+                        {name: "Split Peas", brand: "Mosamma", itemPage: "/", code: "346lkn23", price: "$8", imgsrc: "http://localhost:8080/images/lappe3.png"},
+                        {name: "Split Peas", brand: "Hamgol", itemPage: "/", code: "345iejt", price: "$11", imgsrc: "http://localhost:8080/images/lappe4.png"}
                     ],
                     logged_in: that.state.logged_in
                 }

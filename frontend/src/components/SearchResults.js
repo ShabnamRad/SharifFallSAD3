@@ -20,7 +20,7 @@ export default class SearchResults extends Component {
                 {<div style={{display: "flex", justifyContent: "space-between"}}>
                     <h2 style={{float: "left"}}><img src={itemsList[i].imgsrc} alt="item" style={{width: "80px", height: "80px"}}/>
                     {itemsList[i].name + ", Brand: " + itemsList[i].brand}
-                    <h6>barcode: {itemsList[i].barcode}</h6>
+                    <h6>barcode: {itemsList[i].code}</h6>
                     </h2>
                     <p style={{float: "right", margin: "auto 10px", fontSize: "25px", fontWeight: "bold"}}>{itemsList[i].price}</p>
                 </div>

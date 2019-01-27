@@ -18,7 +18,8 @@ const Header = () => (
                 <ul className='nav navbar-nav'>
                     <li><NavLink to="/" activeClassName="is-active" exact={true}>Home</NavLink></li>
                     <li><NavLink to="/login" activeClassName="is-active">Login</NavLink></li>
-                    <li><NavLink to="/register" activeClassName="is-active">Register</NavLink>
+                    <li><NavLink to="/register" activeClassName="is-active">Register</NavLink></li>
+                    <li><NavLink to="/forgetPassword" activeClassName="is-active">Forget Password</NavLink>
                     </li>
                 </ul>
             </div>
