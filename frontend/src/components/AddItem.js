@@ -106,6 +106,10 @@ export default class AddItem extends Component {
             this.setState({
                 addItemDone: true
             })
+        } else {
+            this.setState({
+                showError: true
+            })
         }
     };
 
@@ -114,6 +118,13 @@ export default class AddItem extends Component {
             <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1}
                  style={{marginTop: "50px"}}>
                 <div className="well bs-component">
+                    {this.state.addItemDone && <div className="alert alert-dismissible alert-success">
+                        <button type="button" className="close" data-dismiss="alert">×</button>
+                        <strong>Well done!</strong> Your request for adding this item was submitted successfully!
+                    </div>}
+                    {this.state.showError && <div className="alert alert-dismissible alert-danger">
+                        <button type="button" className="close" data-dismiss="alert">×</button>
+                        <strong>Error! </strong>Couldn't add the item!</div>}
                     <form className="form-horizontal" onSubmit={this.handleSubmit}>
                         <fieldset>
                             <legend>Add Item</legend>
