@@ -6,10 +6,15 @@ export default class HomePage extends Component {
     constructor(props) {
         super(props);
 
+        let logged_in = false;
+        if(props.location.state)
+            logged_in = props.location.state.logged_in;
+
         this.state = {
             searchInput: "",
             redirect: false,
-            redirectToAddItem: false
+            redirectToAddItem: false,
+            logged_in: logged_in
         };
     }
 
@@ -48,6 +53,7 @@ export default class HomePage extends Component {
 
     render() {
         if (this.state.redirect) {
+            const that= this;
             return <Redirect to={{
                 pathname: "/results",
                 state: {
@@ -56,12 +62,14 @@ export default class HomePage extends Component {
                         {name: "Split Peas", brand: "Golzar", itemPage: "/", barcode: "34534", price: "$12", imgsrc: "http://localhost:8080/images/lappe2.png"},
                         {name: "Split Peas", brand: "Mosamma", itemPage: "/", barcode: "346lkn23", price: "$8", imgsrc: "http://localhost:8080/images/lappe3.png"},
                         {name: "Split Peas", brand: "Hamgol", itemPage: "/", barcode: "345iejt", price: "$11", imgsrc: "http://localhost:8080/images/lappe4.png"}
-                    ]
+                    ],
+                    logged_in: that.state.logged_in
                 }
             }}/>;
         }
         if (this.state.redirectToAddItem) {
-            return <Redirect push to="/addItem"/>
+            const that = this;
+            return <Redirect push to="/addItem" state={{logged_in: that.state.logged_in}}/>
         }
         return (
             <div style={{display: "flex", flexDirection: "column", justifyContent: "center", padding: "25vh 0"}}>

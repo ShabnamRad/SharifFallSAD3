@@ -5,10 +5,14 @@ export default class SearchResults extends Component {
     constructor(props) {
         super(props);
 
-        this.state = this.handleState()
+        let logged_in = false;
+        if(props.location.state)
+            logged_in = props.location.state.logged_in;
+
+        this.state = this.handleState(logged_in)
     }
 
-    handleState = () => {
+    handleState = (logged_in) => {
         const itemsList = this.props.location.state.itemsList;
         let rows = [];
         for (let i = 0; i < itemsList.length; i++) {
@@ -24,7 +28,8 @@ export default class SearchResults extends Component {
                 </a>);
         }
         return {
-            namesList: <div>{rows}</div>
+            namesList: <div>{rows}</div>,
+            logged_in: logged_in
         };
     };
 

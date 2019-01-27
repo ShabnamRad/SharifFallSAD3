@@ -16,8 +16,7 @@ const Header = () => (
             </Link>
             <div className='navbar-collapse collapse' id="navbar-main" aria-expanded="false" style={{height: "1px"}}>
                 <ul className='nav navbar-nav'>
-                    <li><NavLink to="/" activeClassName="is-active" exact={true}>Home</NavLink>
-                    </li>
+                    <li><NavLink to="/" activeClassName="is-active" exact={true}>Home</NavLink></li>
                     <li><NavLink to="/login" activeClassName="is-active">Login</NavLink></li>
                     <li><NavLink to="/register" activeClassName="is-active">Register</NavLink>
                     </li>

@@ -1,10 +1,13 @@
 import React, {Component} from "react";
-import {Redirect} from 'react-router-dom';
 import Col from 'react-bootstrap/lib/Col';
 
 export default class AddItem extends Component {
     constructor(props) {
         super(props);
+
+        let logged_in = false;
+        if(props.location.state)
+            logged_in = props.location.state.logged_in;
 
         this.state = {
             name: "",
@@ -12,7 +15,9 @@ export default class AddItem extends Component {
             brand: "",
             store: "",
             price: "",
-            redirect: false
+            addItemDone: false,
+            showError: false,
+            logged_in: logged_in
         };
     }
 
@@ -71,14 +76,11 @@ export default class AddItem extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.setState({
-            redirect: true
+            addItemDone: true
         })
     };
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect push to="/"/>;
-        }
         return (
             <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1}
                  style={{marginTop: "50px"}}>

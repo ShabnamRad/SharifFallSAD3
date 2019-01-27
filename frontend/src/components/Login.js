@@ -3,7 +3,7 @@ import Col from "react-bootstrap/lib/Col";
 import $ from 'jquery';
 import {Redirect} from "react-router-dom";
 
-$('input.className').change(function() {
+$('input.className').change(function () {
 
 });
 
@@ -14,9 +14,11 @@ export default class Login extends Component {
         this.state = {
             username: "",
             password: "",
-            redirect:false,
+            redirect: false,
             auth_key: "",
-            login_response: ""
+            login_response: "",
+            logged_in: false,
+            showError: false
         };
     }
 
@@ -25,10 +27,9 @@ export default class Login extends Component {
     }
 
     handleKeyUp = event => {
-        if (event.target.value.length){
+        if (event.target.value.length) {
             event.currentTarget.setAttribute('class', 'form-group');
-        }
-        else {
+        } else {
             event.currentTarget.setAttribute('class', 'form-group has-error');
         }
     };
@@ -49,6 +50,7 @@ export default class Login extends Component {
 
     handleSubmit = event => {
         const that = this;
+        let success = false;
         console.log(this.state);
         fetch('http://127.0.0.1:8000/api/v1/rest-auth/login/', {
             method: "POST",
@@ -57,9 +59,11 @@ export default class Login extends Component {
                 "Content-Type": "application/json"
             },
             credentials: "same-origin"
-        }).then(function(response) {
+        }).then(function (response) {
             console.log((response));
             console.log(response.status);     //=> number 100–599
+            if (response.status === 200)
+                success = true;
             console.log(response.statusText); //=> String
             console.log(response.headers);    //=> Headers
             console.log(response.url);        //=> String
@@ -67,27 +71,39 @@ export default class Login extends Component {
                 login_response: response
             });
             return response.text();
-        }, function(error) {
+        }, function (error) {
             console.log(error.message); //=> String
         });
-        this.setState({
-            redirect: true
-        });
+        if (success) {
+            this.setState({
+                redirect: true,
+                logged_in: true
+            });
+        } else {
+            this.setState({
+                showError: true
+            });
+        }
         event.preventDefault();
     };
 
     render() {
         if (this.state.redirect) {
-            return <Redirect push to="/"/>;
+            const that = this;
+            return <Redirect push to="/" state={{logged_in: that.state.logged_in}}/>;
         }
         return (
             <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
                 <div className="well bs-component">
+                    {this.state.showError && <div className="alert alert-dismissible alert-danger">
+                        <button type="button" className="close" data-dismiss="alert">×</button>
+                        <strong>Error! </strong>Login Failed!</div>}
                     <form className="form-horizontal" onSubmit={this.handleSubmit}>
                         <fieldset>
                             <legend>Login</legend>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
-                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="inputUsername">Username</label>
+                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
+                                       htmlFor="inputUsername">Username</label>
                                 <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         autoFocus
@@ -100,7 +116,8 @@ export default class Login extends Component {
                                     /></Col>
                             </div>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
-                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="passwordInput">Password</label>
+                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
+                                       htmlFor="passwordInput">Password</label>
                                 <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         type="password"
