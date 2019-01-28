@@ -1,3 +1,4 @@
+// import ReactStormpath from 'react-stormpath';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppRouter from './routers/AppRouter'
@@ -16,4 +17,5 @@ const jsx = (
     </Provider>
 );
 
+// ReactStormpath.init();
 ReactDOM.render(jsx, document.getElementById('root'));

@@ -1,5 +1,6 @@
 import React from 'react';
 import {NavLink, Link} from 'react-router-dom';
+// import { LoginLink, LogoutLink, Authenticated, NotAuthenticated } from 'react-stormpath';
 import Grid from 'react-bootstrap/lib/Grid';
 
 const Header = () => (
@@ -17,10 +18,16 @@ const Header = () => (
             <div className='navbar-collapse collapse' id="navbar-main" aria-expanded="false" style={{height: "1px"}}>
                 <ul className='nav navbar-nav'>
                     <li><NavLink to="/" activeClassName="is-active" exact={true}>Home</NavLink></li>
+                    {/*<NotAuthenticated>*/}
+                        {/*<li>*/}
+                            {/*<LoginLink />*/}
+                        {/*</li>*/}
+                    {/*</NotAuthenticated>*/}
                     <li><NavLink to="/login" activeClassName="is-active">Login</NavLink></li>
                     <li><NavLink to="/register" activeClassName="is-active">Register</NavLink></li>
-                    <li><NavLink to="/forgetPassword" activeClassName="is-active">Forget Password</NavLink>
-                    </li>
+                    <li><NavLink to="/forgetPassword" activeClassName="is-active">Forget Password</NavLink></li>
+                    <li><NavLink to="/account/current_user" activeClassName="is-active">Profile</NavLink></li>
+                    <li><NavLink to="/" activeClassName="is-active">Logout</NavLink></li>
                 </ul>
             </div>
         </Grid>

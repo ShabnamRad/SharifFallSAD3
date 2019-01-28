@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Col from "react-bootstrap/lib/Col";
+import {NavLink} from "react-router-dom";
 
 export default class SearchResults extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ export default class SearchResults extends Component {
         const itemsList = this.props.location.state.itemsList;
         let rows = [];
         for (let i = 0; i < itemsList.length; i++) {
-            rows.push(<a key={i} className="list-group-item" href={itemsList[i].itemPage}>
+            rows.push(<NavLink key={i} className="list-group-item" to={"/items/" + itemsList[i].code}>
                 {<div style={{display: "flex", justifyContent: "space-between"}}>
                     <h2 style={{float: "left"}}><img src={itemsList[i].imgsrc} alt="item" style={{width: "80px", height: "80px"}}/>
                     {itemsList[i].name + ", Brand: " + itemsList[i].brand}
@@ -25,7 +26,7 @@ export default class SearchResults extends Component {
                     <p style={{float: "right", margin: "auto 10px", fontSize: "25px", fontWeight: "bold"}}>{itemsList[i].price}</p>
                 </div>
                 }
-                </a>);
+                </NavLink>);
         }
         return {
             namesList: <div>{rows}</div>,

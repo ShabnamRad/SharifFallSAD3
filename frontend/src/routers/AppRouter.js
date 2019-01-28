@@ -9,6 +9,9 @@ import Row from 'react-bootstrap/lib/Row';
 import AddItem from "../components/AddItem";
 import SearchResults from "../components/SearchResults";
 import ForgetPassword from "../components/ForgetPassword"
+import ItemPage from "../components/ItemPage";
+import Profile from "../components/Profile";
+import EditProfile from "../components/EditProfile";
 
 const AppRouter = () => (
     <BrowserRouter>
@@ -21,6 +24,9 @@ const AppRouter = () => (
                 <Route path="/addItem" component={AddItem}/>
                 <Route path="/results" component={SearchResults}/>
                 <Route path="/forgetPassword" component={ForgetPassword}/>
+                <Route path="/items/:itemCode" component={ItemPage}/>
+                <Route path="/account/current_user" component={Profile}/>
+                <Route path="/account/edit" component={EditProfile}/>
             </Switch></Row>
         </Grid>
     </BrowserRouter>
