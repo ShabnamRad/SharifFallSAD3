@@ -78,7 +78,7 @@ export default class Profile extends Component {
                             <h5>Type: {this.state.profile.type}</h5>
                             <h5>Contact Info: {this.state.profile.contactInfo}</h5>
                             <h5>Property Name: {this.state.profile.propertyName}</h5>
-                            <h5>Property Desceription: {this.state.profile.propertyDesc}</h5>
+                            <h5>Property Description: {this.state.profile.propertyDesc}</h5>
                             <h5>regID: {this.state.profile.regID}</h5>
                             <h5>Property Type: {this.state.profile.propType}</h5>
                             <h5>Store Location: {this.state.profile.storeLocation}</h5>

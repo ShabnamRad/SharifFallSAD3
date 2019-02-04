@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Col from "react-bootstrap/lib/Col";
 import {Redirect} from "react-router-dom";
+import axios from "axios";
 
 export default class HomePage extends Component {
     constructor(props) {
@@ -38,15 +39,16 @@ export default class HomePage extends Component {
     };
 
     handleSubmit = event => {
+        event.preventDefault();
         const that = this;
-        console.log('http://127.0.0.1:8000/api/v1/items/' + this.state.searchInput);
-        fetch('http://127.0.0.1:8000/api/v1/items/' + this.state.searchInput, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "same-origin"
-        }).then(function(response) {
+        axios.get('http://127.0.0.1:8000/api/v1/items/items?search=' + this.state.searchInput//, {
+        //     method: "GET",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     credentials: "same-origin"
+        // }
+        ).then(response => {
             that.state.itemList = response.json();
             console.log(response);
             console.log(response.status);     //=> number 100–599
@@ -54,14 +56,13 @@ export default class HomePage extends Component {
             console.log(response.headers);    //=> Headers
             console.log(response.url);        //=> String
             return response.json();
-        }, function(error) {
+        }).catch(error => {
             console.log(error.message); //=> String
         });
         this.setState({
             redirect: true
         });
         // set item list here
-        event.preventDefault();
     };
 
     handleAddItem = event => {

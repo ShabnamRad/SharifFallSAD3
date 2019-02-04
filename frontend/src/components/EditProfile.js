@@ -24,6 +24,23 @@ export default class EditProfile extends Component {
         };
     }
 
+    // componentWillMount() {
+    //     const profile = this.props.profile;
+    //     this.setState({
+    //         fullName: profile.fullName,
+    //         email: profile.email,
+    //         image: profile.image,
+    //         type: profile.type,
+    //         contactInfo: profile.contactInfo,
+    //         propertyName: profile.propertyName,
+    //         propertyDesc: profile.propertyDesc,
+    //         regID: profile.regID,
+    //         propType: profile.propType,
+    //         storeLocation: profile.storeLocation,
+    //         storeWH: profile.storeWH
+    //     });
+    // }
+
     validateForm() {
         const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
         return (
