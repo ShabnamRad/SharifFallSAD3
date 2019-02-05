@@ -8,7 +8,8 @@ export default class Register extends Component {
 
         this.state = {
             username: "",
-            fullName: "",
+            first_name: "",
+            last_name: "",
             email: "",
             password1: "",
             password2: "",
@@ -28,7 +29,8 @@ export default class Register extends Component {
     validateForm() {
         const emailReg = /[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/;
         return (
-            this.state.fullName.length > 0 &&
+            this.state.first_name.length > 0 &&
+            this.state.last_name.length > 0 &&
             this.state.email.length > 0 &&
             emailReg.test(this.state.email) &&
             this.state.password1.length > 0 &&
@@ -60,11 +62,17 @@ export default class Register extends Component {
             event.currentTarget.setAttribute('class', 'form-group has-error');
     };
 
-    handleNameChange = event => {
+    handleFirstNameChange = event => {
         this.setState({
-            fullName: event.target.value
+            first_name: event.target.value
         });
     };
+
+    handleLastNameChange = event => {
+        this.setState({
+            last_name: event.target.value
+        });
+    }
 
     handleUsernameChange = event => {
         this.setState({
@@ -186,17 +194,31 @@ export default class Register extends Component {
                         <fieldset>
                             <legend>Register</legend>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
-                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="fullName">Full
+                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="first_name">First
                                     Name</label>
                                 <Col xs={10} sm={9} md={8} lg={8}>
                                     <input
                                         autoFocus
                                         type="text"
-                                        id="fullName"
+                                        id="first_name"
                                         className="form-control"
-                                        placeholder="Full Name"
-                                        value={this.state.fullName}
-                                        onChange={this.handleNameChange}
+                                        placeholder="First Name"
+                                        value={this.state.first_name}
+                                        onChange={this.handleFirstNameChange}
+                                    /></Col>
+                            </div>
+                            <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
+                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label" htmlFor="last_name">Last
+                                    Name</label>
+                                <Col xs={10} sm={9} md={8} lg={8}>
+                                    <input
+                                        autoFocus
+                                        type="text"
+                                        id="last_name"
+                                        className="form-control"
+                                        placeholder="Last Name"
+                                        value={this.state.last_name}
+                                        onChange={this.handleLastNameChange}
                                     /></Col>
                             </div>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
