@@ -11,6 +11,7 @@ export default class AddItem extends Component {
             brand: "",
             store: "",
             price: "",
+            description: "",
             addItemDone: false,
             showError: false,
             error: "Couldn't add the item!"
@@ -23,7 +24,8 @@ export default class AddItem extends Component {
             this.state.code.length > 0 &&
             this.state.brand.length > 0 &&
             this.state.store.length > 0 &&
-            this.state.price > 0
+            this.state.price > 0 &&
+            this.state.description.length > 0
         );
     }
 
@@ -41,6 +43,12 @@ export default class AddItem extends Component {
     handleNameChange = event => {
         this.setState({
             name: event.target.value
+        });
+    };
+
+    handleDescriptionChange = event => {
+        this.setState({
+            description: event.target.value
         });
     };
 
@@ -76,9 +84,10 @@ export default class AddItem extends Component {
             body: JSON.stringify({
                 name: that.state.name,
                 code: that.state.code,
-                // brand: that.state.brand,
+                brand: that.state.brand,
                 // store: that.state.store,
-                price: that.state.price
+                price: that.state.price,
+                description: that.state.description
             }),
             headers: {
                 'Accept': 'application/json',
@@ -172,6 +181,19 @@ export default class AddItem extends Component {
                                         placeholder="Which store are you at?"
                                         value={this.state.store}
                                         onChange={this.handleStoreChange}
+                                    /></Col>
+                            </div>
+                            <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
+                                <label className="col-xs-2 col-sm-2 col-lg-2 col-xl-2 control-label"
+                                       htmlFor="itemDescription">Description</label>
+                                <Col xs={10} sm={9} md={8} lg={8}>
+                                    <input
+                                        type="text"
+                                        id="itemDescription"
+                                        className="form-control"
+                                        placeholder="Item Description"
+                                        value={this.state.description}
+                                        onChange={this.handleDescriptionChange}
                                     /></Col>
                             </div>
                             <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
