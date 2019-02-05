@@ -10,78 +10,67 @@ export default class ItemPage extends Component {
         super(props);
 
         this.state = {
-            item: null,
-            logged_in: false
+            item: null
         }
     }
 
     componentWillMount() {
-        if (this.props.location.state) {
-            this.setState({
-                logged_in: this.props.location.state.logged_in
-            });
-        }
-
         const itemCode = this.props.match.params.itemCode;
-        console.log(itemCode);
 
         const that = this;
-        axios.get('http://127.0.0.1:8000/api/v1/search/items/' + itemCode)
+        axios.get('http://127.0.0.1:8000/api/v1/items/items/' + itemCode)
             .then(response => {
-                that.state.itemList = response.json();
-                console.log(response);
-                console.log(response.status);     //=> number 100–599
-                console.log(response.statusText); //=> String
-                console.log(response.headers);    //=> Headers
-                console.log(response.url);        //=> String
-                this.setState({
-                    item: response.json()
+                that.setState({
+                    item: response.data
                 });
-                return response.json();
-            }).catch(error => console.log(error.message));
-
-        //temporary
-        this.setState({
-            item: {
-                name: "Split Peas",
-                brand: "Holia",
-                itemPage: "/items/holiaSplitPeas",
-                code: itemCode,
-                price: "$10",
-                imgsrc: "http://localhost:8080/images/lappe1.png",
-                description: "Holia Split Peas is a new product of the company which was found popular as soon as it came to markets. Pure oil is used it it!",
-                rating: {score__avg: "3.5"},
-                comments: [
-                    [
-                        "Name of user 1",
-                        2,
-                        "comment of user 1"
-                    ],
-                    [
-                        "Name of user 2",
-                        4,
-                        "comment of user 2"
-                    ]
-                ]
-            },
-            rating: {
-                user: {
-                    name: "Name of User"
-                },
-                comment: "This is a comment"
-            }
-
+                return response;
+            }).catch(error => {
+            console.log(error.message); //=> String
         });
+        //temporary
+        // this.setState({
+        //     item: {
+        //         name: "Split Peas",
+        //         brand: "Holia",
+        //         itemPage: "/items/holiaSplitPeas",
+        //         code: itemCode,
+        //         price: "$10",
+        //         imgsrc: "http://localhost:8080/images/lappe1.png",
+        //         description: "Holia Split Peas is a new product of the company which was found popular as soon as it came to markets. Pure oil is used it it!",
+        //         rating: {score__avg: "3.5"},
+        //         comments: [
+        //             [
+        //                 "Name of user 1",
+        //                 2,
+        //                 "comment of user 1"
+        //             ],
+        //             [
+        //                 "Name of user 2",
+        //                 4,
+        //                 "comment of user 2"
+        //             ]
+        //         ]
+        //     },
+        //     rating: {
+        //         user: {
+        //             name: "Name of User"
+        //         },
+        //         comment: "This is a comment"
+        //     }
+        //
+        // });
 
     };
 
     handleRating = (value) => {
         console.log("rating sent. value: " + value);
-        fetch('http://127.0.0.1:8000/api/v1/rest-auth/login/', {
+        fetch('http://127.0.0.1:8000/api/v1/items/rate', {
             method: "POST",
             body: JSON.stringify({
                 score: value,
-                item: this.state.item
+                comment: null,
+                user: this.state.user.id,
+                item: this.state.item.code
             }),
             headers: {
                 "Content-Type": "application/json"

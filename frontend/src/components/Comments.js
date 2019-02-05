@@ -1,14 +1,29 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Comment from './Comment';
 
-const Comments = (props) => (
-            <section className="">
-                {
-                    props.comments.map((comment, index) => {
-                        return <Comment key={index} comment={comment} />
-                    })
-                }
-            </section>
-        );
+export default class Comments extends Component {
+    constructor(props) {
+        super(props);
 
-export default Comments;
+        this.state = {
+            comments: props.comments,
+            what_to_render: null
+        }
+    }
+
+    componentWillMount() {
+        let rows = [];
+        for (let i = 0; i < this.state.comments.length; i++) {
+            rows.push(<Comment key={i} comment={this.state.comments[i]}/>);
+        }
+        this.setState({
+            what_to_render: <div>{rows}</div>
+        })
+    }
+
+    render() {
+        return (
+            <div>{this.state.what_to_render}</div>
+        );
+    }
+}

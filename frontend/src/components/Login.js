@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Col from "react-bootstrap/lib/Col";
 import $ from 'jquery';
 import {Redirect} from "react-router-dom";
+import axios from "axios";
 
 $('input.className').change(function () {
 
@@ -16,9 +17,8 @@ export default class Login extends Component {
             password: "",
             redirect: false,
             auth_key: "",
-            login_response: "",
-            logged_in: false,
-            showError: false
+            showError: false,
+            error: "Login Failed!"
         };
     }
 
@@ -49,55 +49,55 @@ export default class Login extends Component {
     };
 
     handleSubmit = event => {
+        event.preventDefault();
         const that = this;
-        let success = false;
-        console.log(this.state);
         fetch('http://127.0.0.1:8000/api/v1/rest-auth/login/', {
             method: "POST",
-            body: JSON.stringify(this.state),
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password
+            }),
             headers: {
                 "Content-Type": "application/json"
             },
             credentials: "same-origin"
-        }).then(function (response) {
-            console.log((response));
-            console.log(response.status);     //=> number 100–599
-            if (response.status === 200)
-                success = true;
-            console.log(response.statusText); //=> String
-            console.log(response.headers);    //=> Headers
-            console.log(response.url);        //=> String
-            that.setState({
-                login_response: response
-            });
+        }).then(response => {
+            if(response.status !== 200)
+                throw new Error(response.statusText);
             return response.text();
         }, function (error) {
-            console.log(error.message); //=> String
-        });
-        if (success) {
-            this.setState({
-                redirect: true,
-                logged_in: true
+            that.setState({
+                showError: true,
+                error: error.message()
             });
-        } else {
-            this.setState({
-                showError: true
+        }).then(response => {
+            const token = JSON.parse(response).token;
+            console.log("setting token " + token);
+            sessionStorage.setItem('token', token);
+            axios.defaults.headers.common = {'Authorization': 'Token ' + sessionStorage.getItem('token')};
+            that.setState({
+                redirect: true
             });
-        }
-        event.preventDefault();
+            return response;
+        }, function (error) {
+            that.setState({
+                showError: true,
+                error: error.message()
+            });
+        })
     };
 
     render() {
         if (this.state.redirect) {
             const that = this;
-            return <Redirect push to="/" state={{logged_in: that.state.logged_in}}/>;
+            return <Redirect push to="/"/>;
         }
         return (
             <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
                 <div className="well bs-component">
                     {this.state.showError && <div className="alert alert-dismissible alert-danger">
                         <button type="button" className="close" data-dismiss="alert">×</button>
-                        <strong>Error! </strong>Login Failed!</div>}
+                        <strong>Error! </strong>{this.state.error}</div>}
                     <form className="form-horizontal" onSubmit={this.handleSubmit}>
                         <fieldset>
                             <legend>Login</legend>

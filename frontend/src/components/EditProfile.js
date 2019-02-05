@@ -155,34 +155,27 @@ export default class EditProfile extends Component {
     };
 
     handleSubmit = event => {
+        event.preventDefault();
         const that = this;
-        console.log(this.state);
-        console.log(JSON.stringify(this.state));
         fetch('http://127.0.0.1:8000/api/v1/rest-auth/registration/', {
             method: "POST",
             body: JSON.stringify(this.state),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
+            credentials: "same-origin"
         }).then(function(response) {
-            console.log((response));
-            console.log(response.status);     //=> number 100–599
-            console.log(response.statusText); //=> String
-            console.log(response.headers);    //=> Headers
-            console.log(response.url);        //=> String
-            that.setState({
-                login_response: response
-            });
+            if(response.status === 200) {
+                that.setState({
+                    login_response: response,
+                    redirect: true
+                });
+            }
             return response.text();
         }, function(error) {
             console.log(error.message); //=> String
         });
-        event.preventDefault();
-        event.preventDefault();
-        this.setState({
-            redirect: true
-        })
     };
 
     render() {

@@ -6,14 +6,12 @@ export default class SearchResults extends Component {
     constructor(props) {
         super(props);
 
-        let logged_in = false;
-        if(props.location.state)
-            logged_in = props.location.state.logged_in;
-
-        this.state = this.handleState(logged_in)
+        this.state = {
+            namesList: null
+        }
     }
 
-    handleState = (logged_in) => {
+    componentWillMount(){
         const itemsList = this.props.location.state.itemsList;
         let rows = [];
         for (let i = 0; i < itemsList.length; i++) {
@@ -28,10 +26,9 @@ export default class SearchResults extends Component {
                 }
                 </NavLink>);
         }
-        return {
-            namesList: <div>{rows}</div>,
-            logged_in: logged_in
-        };
+        this.setState({
+            namesList: <div>{rows}</div>
+        });
     };
 
     render() {

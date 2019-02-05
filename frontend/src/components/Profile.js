@@ -7,18 +7,11 @@ export default class Profile extends Component {
         super(props);
 
         this.state = {
-            profile: null,
-            logged_in: false
+            profile: null
         }
     }
 
     componentWillMount() {
-        if (this.props.location.state) {
-            this.setState({
-                logged_in: this.props.location.state.logged_in
-            });
-        }
-
         const that = this;
         console.log('http://127.0.0.1:8000/api/v1/account/current_user');
         fetch('http://127.0.0.1:8000/api/v1/account/current_user', {

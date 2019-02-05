@@ -5,10 +5,6 @@ export default class AddItem extends Component {
     constructor(props) {
         super(props);
 
-        let logged_in = false;
-        if(props.location.state)
-            logged_in = props.location.state.logged_in;
-
         this.state = {
             name: "",
             code: "",
@@ -17,7 +13,7 @@ export default class AddItem extends Component {
             price: "",
             addItemDone: false,
             showError: false,
-            logged_in: logged_in
+            error: "Couldn't add the item!"
         };
     }
 
@@ -34,8 +30,7 @@ export default class AddItem extends Component {
     handleKeyUp = event => {
         if (event.target.value.length) {
             event.currentTarget.setAttribute('class', 'form-group');
-        }
-        else {
+        } else {
             event.currentTarget.setAttribute('class', 'form-group has-error');
         }
         if (event.target.id === 'itemPrice' && !(event.target.value > 0)) {
@@ -74,43 +69,41 @@ export default class AddItem extends Component {
     };
 
     handleSubmit = event => {
+        event.preventDefault();
         const that = this;
-        let success = false;
-        console.log(this.state);
-        console.log("HELLOOOO");
-        console.log(JSON.stringify(this.state));
         fetch('http://127.0.0.1:8000/api/v1/items/items/', {
             method: "POST",
-            body: JSON.stringify(this.state),
+            body: JSON.stringify({
+                name: that.state.name,
+                code: that.state.code,
+                // brand: that.state.brand,
+                // store: that.state.store,
+                price: that.state.price
+            }),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+            },
+            credentials: "same-origin"
+        }).then(function (response) {
+            if (response.status === 200) {
+                that.setState({
+                    addItemDone: true,
+                    login_response: response
+                })
+            } else {
+                that.setState({
+                    showError: true,
+                    error: response.statusText + "!"
+                })
             }
-        }).then(function(response) {
-            console.log((response));
-            console.log(response.status);     //=> number 100–599
-            if(response.status === 200)
-                success = true;
-            console.log(response.statusText); //=> String
-            console.log(response.headers);    //=> Headers
-            console.log(response.url);        //=> String
+            return response;
+        }, function (error) {
             that.setState({
-                login_response: response
-            });
-            return response.text();
-        }, function(error) {
-            console.log(error.message); //=> String
+                showError: true,
+                error: error.message()
+            })
         });
-        event.preventDefault();
-        if(success) {
-            this.setState({
-                addItemDone: true
-            })
-        } else {
-            this.setState({
-                showError: true
-            })
-        }
     };
 
     render() {
@@ -124,7 +117,7 @@ export default class AddItem extends Component {
                     </div>}
                     {this.state.showError && <div className="alert alert-dismissible alert-danger">
                         <button type="button" className="close" data-dismiss="alert">×</button>
-                        <strong>Error! </strong>Couldn't add the item!</div>}
+                        <strong>Error! </strong>{this.state.error}</div>}
                     <form className="form-horizontal" onSubmit={this.handleSubmit}>
                         <fieldset>
                             <legend>Add Item</legend>

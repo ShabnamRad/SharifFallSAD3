@@ -7,16 +7,29 @@ export default class HomePage extends Component {
     constructor(props) {
         super(props);
 
-        let logged_in = false;
-        if(props.location.state)
-            logged_in = props.location.state.logged_in;
-
         this.state = {
             searchInput: "",
             redirect: false,
             redirectToAddItem: false,
-            logged_in: logged_in
+            logged_in: false,
+            itemList: null
         };
+    }
+
+    componentWillMount() {
+        axios.defaults.headers.common = {'Authorization': 'Token ' + sessionStorage.getItem('token')};
+        const that = this;
+        console.log("running");
+        axios.get('http://127.0.0.1:8000/api/v1/accounts/current_user')
+            .then(response => {
+                console.log("here");
+                that.setState({
+                    logged_in: true
+                });
+                return response;
+            }).catch(error => {
+            console.log(error.message);
+        });
     }
 
     validateForm() {
@@ -32,8 +45,7 @@ export default class HomePage extends Component {
     handleKeyUp = event => {
         if (event.target.value.length) {
             event.currentTarget.setAttribute('class', 'form-group');
-        }
-        else {
+        } else {
             event.currentTarget.setAttribute('class', 'form-group has-error');
         }
     };
@@ -41,28 +53,16 @@ export default class HomePage extends Component {
     handleSubmit = event => {
         event.preventDefault();
         const that = this;
-        axios.get('http://127.0.0.1:8000/api/v1/items/items?search=' + this.state.searchInput//, {
-        //     method: "GET",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     credentials: "same-origin"
-        // }
-        ).then(response => {
-            that.state.itemList = response.json();
-            console.log(response);
-            console.log(response.status);     //=> number 100–599
-            console.log(response.statusText); //=> String
-            console.log(response.headers);    //=> Headers
-            console.log(response.url);        //=> String
-            return response.json();
-        }).catch(error => {
+        axios.get('http://127.0.0.1:8000/api/v1/items/items?search=' + this.state.searchInput)
+            .then(response => {
+                that.setState({
+                    itemList: response.data,
+                    redirect: true
+                });
+                return response;
+            }).catch(error => {
             console.log(error.message); //=> String
         });
-        this.setState({
-            redirect: true
-        });
-        // set item list here
     };
 
     handleAddItem = event => {
@@ -74,24 +74,22 @@ export default class HomePage extends Component {
 
     render() {
         if (this.state.redirect) {
-            const that= this;
+            const that = this;
             return <Redirect to={{
                 pathname: "/results",
                 state: {
-                    itemsList: [
-                        {name: "Split Peas", brand: "Holia",  itemPage: "/items/holiaSplitPeas", code: "214142", price: "$10", imgsrc: "http://localhost:8080/images/lappe1.png"},
-                        {name: "Split Peas", brand: "Golzar", itemPage: "/items/golzarSplitPeas", code: "34534", price: "$12", imgsrc: "http://localhost:8080/images/lappe2.png"},
-                        {name: "Split Peas", brand: "Mosamma", itemPage: "/items/mosamaSplitPeas", code: "346lkn23", price: "$8", imgsrc: "http://localhost:8080/images/lappe3.png"},
-                        {name: "Split Peas", brand: "Hamgol", itemPage: "/items/hamgolSplitPeas", code: "345iejt", price: "$11", imgsrc: "http://localhost:8080/images/lappe4.png"}
-                    ],
-                    logged_in: that.state.logged_in
+                    itemsList: that.state.itemList
+                    //     [
+                    //     {name: "Split Peas", brand: "Holia",  itemPage: "/items/holiaSplitPeas", code: "214142", price: "$10", imgsrc: "http://localhost:8080/images/lappe1.png"},
+                    //     {name: "Split Peas", brand: "Golzar", itemPage: "/items/golzarSplitPeas", code: "34534", price: "$12", imgsrc: "http://localhost:8080/images/lappe2.png"},
+                    //     {name: "Split Peas", brand: "Mosamma", itemPage: "/items/mosamaSplitPeas", code: "346lkn23", price: "$8", imgsrc: "http://localhost:8080/images/lappe3.png"},
+                    //     {name: "Split Peas", brand: "Hamgol", itemPage: "/items/hamgolSplitPeas", code: "345iejt", price: "$11", imgsrc: "http://localhost:8080/images/lappe4.png"}
+                    // ]
                 }
             }}/>;
         }
-        if (this.state.redirectToAddItem) {
-            const that = this;
-            return <Redirect push to="/addItem" state={{logged_in: that.state.logged_in}}/>
-        }
+        if (this.state.redirectToAddItem)
+            return <Redirect push to="/addItem"/>
         return (
             <div style={{display: "flex", flexDirection: "column", justifyContent: "center", padding: "25vh 0"}}>
                 <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1}>
@@ -100,8 +98,10 @@ export default class HomePage extends Component {
                             <fieldset>
                                 <legend>Search Item Or Barcode</legend>
                                 <div className="form-group" onChange={this.handleKeyUp} onKeyUp={this.handleKeyUp}>
-                                    <label className="col-xs-1 col-sm-1 col-lg-1 col-xl-1" style={{alignItems: "center"}}><img src="http://localhost:8080/images/search-icon.png" alt="search icon"
-                                                style={{width: "40px", height: "40px", marginLeft: "10px"}}/></label>
+                                    <label className="col-xs-1 col-sm-1 col-lg-1 col-xl-1"
+                                           style={{alignItems: "center"}}><img
+                                        src="http://localhost:8080/images/search-icon.png" alt="search icon"
+                                        style={{width: "40px", height: "40px", marginLeft: "10px"}}/></label>
                                     <Col xs={10} sm={9} md={9} lg={9}>
                                         <input
                                             autoFocus

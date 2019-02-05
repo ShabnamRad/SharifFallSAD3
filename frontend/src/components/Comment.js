@@ -3,10 +3,9 @@ import React from 'react';
 const Comment = (props) => (
     <article className="comment">
         <div className="comment-header">
-            <img className='logo' src={props.rating.user.image} alt="Avatar"/>
-            <strong style={{paddingTop: '30px'}}>{props.rating.user.name}</strong>
+            <strong style={{paddingTop: '30px'}}>{props.comment[0]}</strong>
         </div>
-        <div className="comment-content">{props.rating.rating}</div>
+        <div className="comment-content">{props.comment[2]}</div>
     </article>
 );
 
