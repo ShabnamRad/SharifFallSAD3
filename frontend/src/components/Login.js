@@ -51,7 +51,7 @@ export default class Login extends Component {
     handleSubmit = event => {
         event.preventDefault();
         const that = this;
-        fetch('http://127.0.0.1:8000/api/v1/rest-auth/login/', {
+        fetch('http://127.0.0.1:8000/api-token-auth/', {
             method: "POST",
             body: JSON.stringify({
                 username: this.state.username,
@@ -88,10 +88,8 @@ export default class Login extends Component {
     };
 
     render() {
-        if (this.state.redirect) {
-            const that = this;
+        if (this.state.redirect)
             return <Redirect push to="/"/>;
-        }
         return (
             <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
                 <div className="well bs-component">

@@ -1,34 +1,55 @@
 import React from 'react';
 import {addComment} from "../actions/comments";
 import Col from "./Login";
+import axios from "axios";
 
 class CommentForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.addComment = this.addComment.bind(this);
+
+        this.state = {
+
+        }
     }
 
     addComment(e) {
         e.preventDefault();
-        console.log(e.target.elements);
-        // const comment = e.target.elements.rating.value.trim();
-        // const name = e.target.elements.name.value.trim();
-        //
-        // if (name && comment) {
-        //     const commentObject = {
-        //         name: name,
-        //         text: comment,
-        //         articleID: this.props.articleID,
-        //         date: moment().valueOf()
-        //     };
-        //
-        //     this.props.dispatch(addComment(commentObject));
-        //
-        //     e.target.elements.rating.value = '';
-        //     e.target.elements.name.value = '';
-        // }
-    }
+        const that = this;
+        fetch('http://127.0.0.1:8000/api/v1/items/rate', {
+            method: "POST",
+            body: JSON.stringify({
+                //TODO
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+        }).then(response => {
+            if(response.status !== 200)
+                throw new Error(response.statusText);
+            return response.text();
+        }, function (error) {
+            that.setState({
+                showError: true,
+                error: error.message()
+            });
+        }).then(response => {
+            const token = JSON.parse(response).token;
+            console.log("setting token " + token);
+            sessionStorage.setItem('token', token);
+            axios.defaults.headers.common = {'Authorization': 'Token ' + sessionStorage.getItem('token')};
+            that.setState({
+                redirect: true
+            });
+            return response;
+        }, function (error) {
+            that.setState({
+                showError: true,
+                error: error.message()
+            });
+        })
+    };
 
     render() {
         return (

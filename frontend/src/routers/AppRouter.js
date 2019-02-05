@@ -12,6 +12,7 @@ import ForgetPassword from "../components/ForgetPassword"
 import ItemPage from "../components/ItemPage";
 import Profile from "../components/Profile";
 import EditProfile from "../components/EditProfile";
+import Logout from "../components/Logout";
 
 const AppRouter = () => (
     <BrowserRouter>
@@ -27,6 +28,7 @@ const AppRouter = () => (
                 <Route path="/items/:itemCode" component={ItemPage}/>
                 <Route path="/account/current_user" component={Profile}/>
                 <Route path="/account/edit" component={EditProfile}/>
+                <Route path="/logout" component={Logout}/>
             </Switch></Row>
         </Grid>
     </BrowserRouter>

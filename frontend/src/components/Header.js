@@ -9,12 +9,32 @@ export default class Header extends Component {
         super(props);
 
         this.state = {
-            logged_in: false
+            logged_in: false,
+            name: ""
         }
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
-        console.log("update");
+        axios.defaults.headers.common = {'Authorization': 'Token ' + sessionStorage.getItem('token')};
+        const that = this;
+        axios.get('http://127.0.0.1:8000/api/v1/accounts/current_user')
+            .then(response => {
+                if (response.status === 200) {
+                    that.setState({
+                        logged_in: true
+                    });
+                } else {
+                    that.setState({
+                        logged_in: false
+                    });
+                }
+                return response;
+            }).catch(error => {
+            console.log(error.message);
+            that.setState({
+                logged_in: false
+            });
+        });
     }
 
     render() {
@@ -34,11 +54,17 @@ export default class Header extends Component {
                          style={{height: "1px"}}>
                         <ul className='nav navbar-nav'>
                             <li><NavLink to="/" activeClassName="is-active" exact={true}>Home</NavLink></li>
-                            {!this.state.logged_in && <li><NavLink to="/login" activeClassName="is-active">Login</NavLink></li>}
-                            {!this.state.logged_in && <li><NavLink to="/register" activeClassName="is-active">Register</NavLink></li>}
-                            {!this.state.logged_in && <li><NavLink to="/forgetPassword" activeClassName="is-active">Forget Password</NavLink></li>}
-                            {this.state.logged_in && <li><NavLink to="/account/current_user" activeClassName="is-active">Profile</NavLink></li>}
-                            {this.state.logged_in && <li><NavLink to="/" activeClassName="is-active">Logout</NavLink></li>}
+                            {!this.state.logged_in &&
+                            <li><NavLink to="/login" activeClassName="is-active">Login</NavLink></li>}
+                            {!this.state.logged_in &&
+                            <li><NavLink to="/register" activeClassName="is-active">Register</NavLink></li>}
+                            {!this.state.logged_in &&
+                            <li><NavLink to="/forgetPassword" activeClassName="is-active">Forget Password</NavLink>
+                            </li>}
+                            {this.state.logged_in &&
+                            <li><NavLink to="/account/current_user" activeClassName="is-active">Profile</NavLink></li>}
+                            {this.state.logged_in &&
+                            <li><NavLink to="/logout" activeClassName="is-active">Logout</NavLink></li>}
                         </ul>
                     </div>
                 </Grid>

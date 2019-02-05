@@ -19,16 +19,22 @@ export default class HomePage extends Component {
     componentWillMount() {
         axios.defaults.headers.common = {'Authorization': 'Token ' + sessionStorage.getItem('token')};
         const that = this;
-        console.log("running");
         axios.get('http://127.0.0.1:8000/api/v1/accounts/current_user')
             .then(response => {
-                console.log("here");
-                that.setState({
-                    logged_in: true
-                });
+                if (response.status === 200) {
+                    that.setState({
+                        logged_in: true
+                    });
+                } else {
+                    that.setState({
+                        logged_in: false
+                    });
+                }
                 return response;
             }).catch(error => {
-            console.log(error.message);
+            that.setState({
+                logged_in: false
+            });
         });
     }
 
@@ -52,8 +58,11 @@ export default class HomePage extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+        const key = {'Authorization': 'Token ' + sessionStorage.getItem('token')};
+        console.log(key);
+        axios.defaults.headers.common = key;
         const that = this;
-        axios.get('http://127.0.0.1:8000/api/v1/items/items?search=' + this.state.searchInput)
+        axios.get('http://127.0.0.1:8000/api/v1/items/items/?search=' + this.state.searchInput)
             .then(response => {
                 that.setState({
                     itemList: response.data,
