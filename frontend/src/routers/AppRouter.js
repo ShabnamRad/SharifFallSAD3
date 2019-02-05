@@ -13,6 +13,7 @@ import ItemPage from "../components/ItemPage";
 import Profile from "../components/Profile";
 import EditProfile from "../components/EditProfile";
 import Logout from "../components/Logout";
+import Promotion from "../components/Promotion"
 
 const AppRouter = () => (
     <BrowserRouter>
@@ -29,6 +30,7 @@ const AppRouter = () => (
                 <Route path="/account/current_user" component={Profile}/>
                 <Route path="/account/edit" component={EditProfile}/>
                 <Route path="/logout" component={Logout}/>
+                <Route path="/promote" component={Promotion}/>
             </Switch></Row>
         </Grid>
     </BrowserRouter>
