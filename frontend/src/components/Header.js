@@ -64,6 +64,8 @@ export default class Header extends Component {
                             {this.state.logged_in &&
                             <li><NavLink to="/account/current_user" activeClassName="is-active">Profile</NavLink></li>}
                             {this.state.logged_in &&
+                            <li><NavLink to="/promote" activeClassName="is-active">Promotion</NavLink></li>}
+                            {this.state.logged_in &&
                             <li><NavLink to="/logout" activeClassName="is-active">Logout</NavLink></li>}
                         </ul>
                     </div>
