@@ -10,7 +10,8 @@ export default class Header extends Component {
 
         this.state = {
             logged_in: false,
-            name: ""
+            name: "",
+            shouldUpdate: true
         }
     }
 
@@ -21,7 +22,8 @@ export default class Header extends Component {
             .then(response => {
                 if (response.status === 200) {
                     that.setState({
-                        logged_in: true
+                        logged_in: true,
+                        name: response.data.first_name
                     });
                 } else {
                     that.setState({
@@ -30,11 +32,10 @@ export default class Header extends Component {
                 }
                 return response;
             }).catch(error => {
-            console.log(error.message);
-            that.setState({
-                logged_in: false
+                that.setState({
+                    logged_in: false
+                });
             });
-        });
     }
 
     render() {
@@ -65,6 +66,9 @@ export default class Header extends Component {
                             <li><NavLink to="/account/current_user" activeClassName="is-active">Profile</NavLink></li>}
                             {this.state.logged_in &&
                             <li><NavLink to="/logout" activeClassName="is-active">Logout</NavLink></li>}
+                        </ul>
+                        <ul className=" nav navbar-nav navbar-right">
+                            {this.state.logged_in && <li><NavLink to="/account/current_user" activeClassName="is-active">Hi {this.state.name}!</NavLink></li>}
                         </ul>
                     </div>
                 </Grid>

@@ -59,7 +59,6 @@ export default class HomePage extends Component {
     handleSubmit = event => {
         event.preventDefault();
         const key = {'Authorization': 'Token ' + sessionStorage.getItem('token')};
-        console.log(key);
         axios.defaults.headers.common = key;
         const that = this;
         axios.get('http://127.0.0.1:8000/api/v1/items/items/?search=' + this.state.searchInput)

@@ -13,7 +13,6 @@ export default class Profile extends Component {
 
     componentWillMount() {
         const that = this;
-        console.log('http://127.0.0.1:8000/api/v1/account/current_user');
         fetch('http://127.0.0.1:8000/api/v1/account/current_user', {
             method: "GET",
             headers: {
@@ -22,11 +21,6 @@ export default class Profile extends Component {
             credentials: "same-origin"
         }).then(function (response) {
             that.state.itemList = response.json();
-            console.log(response);
-            console.log(response.status);     //=> number 100–599
-            console.log(response.statusText); //=> String
-            console.log(response.headers);    //=> Headers
-            console.log(response.url);        //=> String
             this.setState({
                 profile: response.json()
             });
