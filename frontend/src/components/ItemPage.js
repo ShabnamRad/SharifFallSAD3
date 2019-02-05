@@ -107,12 +107,13 @@ export default class ItemPage extends Component {
                         </div>
                     </div>
                 </Col>
-                {/*<Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>*/}
-                    {/*<div className="well bs-component">*/}
-                        {/*<CommentForm item={this.state.item}/>*/}
-                        {/*<Comments comments={this.state.item.comments}/>*/}
-                    {/*</div>*/}
-                {/*</Col>*/}
+                <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
+                    <div className="well bs-component">
+                        <CommentForm item={this.state.item}/>
+                        <Comments comments={this.state.item.comments}/>
+
+                    </div>
+                </Col>
             </div>
         )
     }

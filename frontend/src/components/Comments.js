@@ -6,15 +6,19 @@ export default class Comments extends Component {
         super(props);
 
         this.state = {
-            comments: props.comments,
-            what_to_render: null
+            what_to_render: <div> </div>
         }
     }
 
-    componentWillMount() {
+    componentWillReceiveProps(nextProps, nextContext) {
+        const comments = nextProps.comments;
+        const len = comments.length;
         let rows = [];
-        for (let i = 0; i < this.state.comments.length; i++) {
-            rows.push(<Comment key={i} comment={this.state.comments[i]}/>);
+        for (let i = 0; i < len; i++) {
+            rows.push(<Comment key={i} comment={comments[i]}/>);
+            if(i === len - 1)
+                break;
+            rows.push(<hr style={{borderColor: "gray"}}/>);
         }
         this.setState({
             what_to_render: <div>{rows}</div>
