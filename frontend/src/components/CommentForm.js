@@ -30,26 +30,35 @@ class CommentForm extends React.Component {
         }
     };
 
+    handleCommentChange = event => {
+        this.setState(
+            {
+                comment_text: event.target.value
+            }
+        );
+    };
+
     handleSubmit = event => {
         event.preventDefault();
-        // console.log("comment sent: " + event);
-        // fetch('http://127.0.0.1:8000/api/v1/items/rate', {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //         score: value,
-        //         comment: null,
-        //         user: this.state.user.id,
-        //         item: this.state.item.code
-        //     }),
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     credentials: "same-origin"
-        // }).then(function (response) {
-        //     return response.text();
-        // }, function (error) {
-        //     console.log(error.message); //=> String
-        // });
+        console.log("comment sent: " + this.state.comment_text);
+        const that = this;
+        fetch('http://127.0.0.1:8000/api/v1/items/rate/', {
+            method: "POST",
+            body: JSON.stringify({
+                score: 3,
+                comment: that.state.comment_text,
+                user: 2,
+                item: that.state.item.code
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+        }).then(function (response) {
+            return response.text();
+        }, function (error) {
+            console.log(error.message); //=> String
+        });
     };
 
     render() {
@@ -64,7 +73,10 @@ class CommentForm extends React.Component {
                                               name="comment"
                                               id="commentText"
                                               className="form-control"
-                                              placeholder="write your comment on this item, here"/></Col>
+                                              placeholder="write your comment on this item, here"
+                                              value={this.state.comment_text}
+                                              onChange={this.handleCommentChange}
+                                    /></Col>
                         </div>
                         <Col xs={1} sm={1} md={1} lg={1}>
                             <button

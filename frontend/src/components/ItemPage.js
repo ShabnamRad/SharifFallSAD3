@@ -14,7 +14,8 @@ export default class ItemPage extends Component {
                 rating: {
                     score_avg: 0
                 }
-            }
+            },
+            imageCounter: 0
         }
     }
 
@@ -36,10 +37,14 @@ export default class ItemPage extends Component {
         //     item: {
         //         name: "Split Peas",
         //         brand: "Holia",
-        //         itemPage: "/items/holiaSplitPeas",
+        //         itemPage: "/items/"+itemCode,
         //         code: itemCode,
         //         price: "$10",
-        //         imgsrc: "http://localhost:8080/images/lappe1.png",
+        //         img1: "http://localhost:8080/images/lappe1.png",
+        //         img2: "http://localhost:8080/images/lappe2.png",
+        //         img3: "http://localhost:8080/images/lappe3.png",
+        //         img4: "http://localhost:8080/images/lappe4.png",
+        //         img5: "http://localhost:8080/images/lappe3.png",
         //         description: "Holia Split Peas is a new product of the company which was found popular as soon as it came to markets. Pure oil is used it it!",
         //         rating: {score__avg: "3.5"},
         //         comments: [
@@ -55,20 +60,43 @@ export default class ItemPage extends Component {
         //             ]
         //         ]
         //     }
-        //
         // });
 
     };
 
+    handlePicChange = () => {
+        this.setState({
+            imageCounter: (this.state.imageCounter + 1)%5
+        })
+    };
+
+    getImage = () => {
+        switch (this.state.imageCounter) {
+            case 0:
+                return this.state.item.img1;
+            case 1:
+                return this.state.item.img2;
+            case 2:
+                return this.state.item.img3;
+            case 3:
+                return this.state.item.img4;
+            case 4:
+                return this.state.item.img5;
+            default:
+                return null;
+        }
+    };
+
     handleRating = (value) => {
-        console.log("rating sent. value: " + value);
-        fetch('http://127.0.0.1:8000/api/v1/items/rate', {
+        console.log("rating sent. value: " + value + " item: " + this.state.item.code);
+        const that = this;
+        fetch('http://127.0.0.1:8000/api/v1/items/rate/', {
             method: "POST",
             body: JSON.stringify({
                 score: value,
                 comment: null,
-                user: this.state.user.id,
-                item: this.state.item.code
+                user: 1,
+                item: that.state.item.code
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -87,8 +115,8 @@ export default class ItemPage extends Component {
                 <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
                     <div className="well bs-component">
                         <div style={{display: "flex", justifyContent: "space-between"}}>
-                            {this.state.item.img1 && <img src={this.state.item.img1} alt="item"
-                                 style={{width: "400px", height: "400px", marginRight: "50px"}}/>}
+                            {this.getImage() && <img src={this.getImage()} alt="item"
+                                 style={{width: "400px", height: "400px", marginRight: "50px"}} onClick={this.handlePicChange}/>}
                             <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                                 <div>
                                     <h2>{this.state.item.name + ", Brand: " + this.state.item.brand}</h2>
