@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Col from "react-bootstrap/lib/Col";
 import {NavLink} from "react-router-dom";
+import axios from "axios";
 
 export default class Profile extends Component {
     constructor(props) {
@@ -12,22 +13,6 @@ export default class Profile extends Component {
     }
 
     componentWillMount() {
-        const that = this;
-        fetch('http://127.0.0.1:8000/api/v1/account/current_user', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "same-origin"
-        }).then(function (response) {
-            that.state.itemList = response.json();
-            this.setState({
-                profile: response.json()
-            });
-            return response.json();
-        }, function (error) {
-            console.log(error.message); //=> String
-        });
 
         //temporary
         this.setState({
@@ -47,6 +32,24 @@ export default class Profile extends Component {
                 storeWH: "everyday, 8:00 - 19:00"
             }
         });
+
+        axios.defaults.headers.common = {'Authorization': 'Token ' + sessionStorage.getItem('token')};
+        const that = this;
+        axios.get('http://127.0.0.1:8000/api/v1/accounts/current_user').then(response => {
+            if (response.status === 200) {
+                console.log(response.data.username);
+                that.setState({
+                    profile: response.data
+                });
+            } else {
+                console.log("wtfhellkhiar")
+            }
+            return response;
+        }, function (error) {
+            console.log(error.message); //=> String
+        });
+
+
 
     };
 
