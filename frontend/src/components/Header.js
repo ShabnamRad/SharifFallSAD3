@@ -21,20 +21,26 @@ export default class Header extends Component {
         axios.get('http://127.0.0.1:8000/api/v1/accounts/current_user')
             .then(response => {
                 if (response.status === 200) {
-                    that.setState({
-                        logged_in: true,
-                        name: response.data.first_name
-                    });
+                    if(!this.state.logged_in) {
+                        that.setState({
+                            logged_in: true,
+                            name: response.data.first_name
+                        });
+                    }
                 } else {
-                    that.setState({
-                        logged_in: false
-                    });
+                    if(this.state.logged_in) {
+                        that.setState({
+                            logged_in: false
+                        });
+                    }
                 }
                 return response;
             }).catch(error => {
+            if(this.state.logged_in) {
                 that.setState({
                     logged_in: false
                 });
+            }
             });
     }
 
