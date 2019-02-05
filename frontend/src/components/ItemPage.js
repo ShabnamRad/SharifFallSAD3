@@ -3,14 +3,18 @@ import Col from "react-bootstrap/lib/Col";
 import Rating from "react-rating";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
-import {AxiosInstance as axios} from "axios";
+import axios from "axios";
 
 export default class ItemPage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            item: null
+            item: {
+                rating: {
+                    score_avg: 0
+                }
+            }
         }
     }
 
@@ -18,7 +22,7 @@ export default class ItemPage extends Component {
         const itemCode = this.props.match.params.itemCode;
 
         const that = this;
-        axios.get('http://127.0.0.1:8000/api/v1/items/items/' + itemCode)
+        axios.get('http://127.0.0.1:8000/api/v1/items/items/' + itemCode + "/")
             .then(response => {
                 that.setState({
                     item: response.data
@@ -50,12 +54,6 @@ export default class ItemPage extends Component {
         //                 "comment of user 2"
         //             ]
         //         ]
-        //     },
-        //     rating: {
-        //         user: {
-        //             name: "Name of User"
-        //         },
-        //         comment: "This is a comment"
         //     }
         //
         // });
@@ -77,11 +75,6 @@ export default class ItemPage extends Component {
             },
             credentials: "same-origin"
         }).then(function (response) {
-            console.log((response));
-            console.log(response.status);     //=> number 100–599
-            console.log(response.statusText); //=> String
-            console.log(response.headers);    //=> Headers
-            console.log(response.url);        //=> String
             return response.text();
         }, function (error) {
             console.log(error.message); //=> String
@@ -94,8 +87,8 @@ export default class ItemPage extends Component {
                 <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
                     <div className="well bs-component">
                         <div style={{display: "flex", justifyContent: "space-between"}}>
-                            <img src={this.state.item.imgsrc} alt="item"
-                                 style={{width: "400px", height: "400px", marginRight: "50px"}}/>
+                            {this.state.item.img1 && <img src={this.state.item.img1} alt="item"
+                                 style={{width: "400px", height: "400px", marginRight: "50px"}}/>}
                             <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                                 <div>
                                     <h2>{this.state.item.name + ", Brand: " + this.state.item.brand}</h2>
@@ -114,12 +107,12 @@ export default class ItemPage extends Component {
                         </div>
                     </div>
                 </Col>
-                <Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>
-                    <div className="well bs-component">
-                        <CommentForm item={this.state.item}/>
-                        <Comments comments={this.state.item.comments}/>
-                    </div>
-                </Col>
+                {/*<Col xs={12} md={10} mdOffset={1} lg={10} lgOffset={1} sm={10} smOffset={1} style={{marginTop: "50px"}}>*/}
+                    {/*<div className="well bs-component">*/}
+                        {/*<CommentForm item={this.state.item}/>*/}
+                        {/*<Comments comments={this.state.item.comments}/>*/}
+                    {/*</div>*/}
+                {/*</Col>*/}
             </div>
         )
     }

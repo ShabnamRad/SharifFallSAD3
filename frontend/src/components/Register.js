@@ -154,8 +154,6 @@ export default class Register extends Component {
 
     handleSubmit = event => {
         const that = this;
-        console.log(this.state);
-        console.log(JSON.stringify(this.state));
         fetch('http://127.0.0.1:8000/api/v1/rest-auth/registration/', {
             method: "POST",
             body: JSON.stringify(this.state),
@@ -164,11 +162,6 @@ export default class Register extends Component {
                 'Content-Type': 'application/json',
             }
         }).then(function(response) {
-            console.log((response));
-            console.log(response.status);     //=> number 100–599
-            console.log(response.statusText); //=> String
-            console.log(response.headers);    //=> Headers
-            console.log(response.url);        //=> String
             that.setState({
                 login_response: response
             });

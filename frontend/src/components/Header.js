@@ -10,7 +10,8 @@ export default class Header extends Component {
 
         this.state = {
             logged_in: false,
-            name: ""
+            name: "",
+            shouldUpdate: true
         }
     }
 
@@ -20,21 +21,27 @@ export default class Header extends Component {
         axios.get('http://127.0.0.1:8000/api/v1/accounts/current_user')
             .then(response => {
                 if (response.status === 200) {
-                    that.setState({
-                        logged_in: true
-                    });
+                    if(!this.state.logged_in) {
+                        that.setState({
+                            logged_in: true,
+                            name: response.data.first_name
+                        });
+                    }
                 } else {
-                    that.setState({
-                        logged_in: false
-                    });
+                    if(this.state.logged_in) {
+                        that.setState({
+                            logged_in: false
+                        });
+                    }
                 }
                 return response;
             }).catch(error => {
-            console.log(error.message);
-            that.setState({
-                logged_in: false
+            if(this.state.logged_in) {
+                that.setState({
+                    logged_in: false
+                });
+            }
             });
-        });
     }
 
     render() {
@@ -67,6 +74,9 @@ export default class Header extends Component {
                             <li><NavLink to="/promote" activeClassName="is-active">Promotion</NavLink></li>}
                             {this.state.logged_in &&
                             <li><NavLink to="/logout" activeClassName="is-active">Logout</NavLink></li>}
+                        </ul>
+                        <ul className=" nav navbar-nav navbar-right">
+                            {this.state.logged_in && <li><NavLink to="/account/current_user" activeClassName="is-active">Hi {this.state.name}!</NavLink></li>}
                         </ul>
                     </div>
                 </Grid>

@@ -38,7 +38,6 @@ export default class ForgetPassword extends Component {
 
     handleSubmit = event => {
         const that = this;
-        console.log(this.state);
         fetch('http://127.0.0.1:8000/api/v1/rest-auth/password/reset/', {
             method: "POST",
             body: JSON.stringify(this.state),
@@ -47,11 +46,6 @@ export default class ForgetPassword extends Component {
             },
             credentials: "same-origin"
         }).then(function(response) {
-            console.log((response));
-            console.log(response.status);     //=> number 100–599
-            console.log(response.statusText); //=> String
-            console.log(response.headers);    //=> Headers
-            console.log(response.url);        //=> String
             that.setState({
                 login_response: response
             });
