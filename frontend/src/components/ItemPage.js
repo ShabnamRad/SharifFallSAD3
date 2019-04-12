@@ -99,7 +99,8 @@ export default class ItemPage extends Component {
                 item: that.state.item.code
             }),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Token " + sessionStorage.getItem('token')
             },
             credentials: "same-origin"
         }).then(function (response) {
